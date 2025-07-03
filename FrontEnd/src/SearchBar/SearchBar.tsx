@@ -1,34 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useDebounce } from './useDebounce';
-import { type BookArraySetterAndGetter } from '../ContentBar/ContentBar';
-import axios from 'axios';
+//import { type BookArraySetterAndGetter } from '../ContentBar/ContentBar';
+import { useDispatch } from 'react-redux';
+import { fetchBooks, type AppDispatch } from '../State/store';
+//import { type RootState } from '@reduxjs/toolkit/query';
+//import { type BooksState, type BookDTO } from '../State/store';
 
-export const BOOK_URL = import.meta.env.VITE_BOOK_URL;
-
-export const SearchBar:React.FC<BookArraySetterAndGetter> = ({bookArray, setBookArray}: BookArraySetterAndGetter) => {
+export const SearchBar:React.FC = () => {
 
     const delay = 500;
+    const dispatch: AppDispatch = useDispatch();
+
     const [input, setInput] = useState('');
     const debounceSearchTerm = useDebounce(input, delay);
 
     useEffect(() => {
-        if(debounceSearchTerm)
-        {
-            const URL = BOOK_URL + `/get-books?book_title=${input}`;
-            axios.get(URL).
-            then(response => {
-                setBookArray(response.data);
-            });
-        }
+        dispatch(fetchBooks(input));
     }, [debounceSearchTerm]);
 
     useEffect(() => {
-        const URL = BOOK_URL + "/get-books?book_title=";
-        axios.get(URL).
-        then(res => {
-            setBookArray(res.data)
-        });
-    },[])
+        dispatch(fetchBooks(''));
+    },[]);
 
     const insertPlaceholderStr = () => {return input === '' ? 'Enter a books title' : input}
 

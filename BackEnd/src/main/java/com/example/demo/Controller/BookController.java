@@ -21,6 +21,7 @@ public class BookController
     @GetMapping("/get-books")
     public ResponseEntity<List<Book>> getBooks(@RequestParam(defaultValue = "") String book_title)
     {
+        System.out.println(book_title);
         List<Book> books;
         if(!book_title.isEmpty())
             books = bookRepo.findAll().stream().filter(bk -> bk.getTitle().contains(book_title)).toList();
@@ -33,7 +34,6 @@ public class BookController
     @PostMapping()
     public ResponseEntity<Book> createBook(@RequestBody Book book)
     {
-        System.out.println(book.getPublishDate());
         Book addiction = bookRepo.save(book);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(addiction.getId()).toUri();
         return ResponseEntity.created(location).body(addiction);

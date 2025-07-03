@@ -1,27 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link }  from 'react-router-dom';
+import { Provider } from 'react-redux';
 
-import { LoadingBar } from './LoadingBar/LoadingBar';
+import { LoadingBarTop } from './LoadingBar/LoadingBar';
 import { SearchBar } from './SearchBar/SearchBar';
 import { ContentBar } from './ContentBar/ContentBar';
+import { store } from './State/store';
 
-export type MainPageBookDTO = {
-    id:number,
-    title: string,
-    author: string,
-    publich_date: string,
-}
+//import { type BookDTO } from './State/store';
 
 
 export const MainPage:React.FC = _ => {
 
-    const [bookArray, setBookArray] = useState<MainPageBookDTO[]>([]);
+    //const [bookArray, setBookArray] = useState<BookDTO[]>([]);
 
     return (
         <div>
-            <LoadingBar/>
-            <SearchBar bookArray={bookArray} setBookArray={setBookArray}/>
-            <ContentBar bookArray={bookArray} setBookArray={setBookArray}/>
+            <Provider store={store}>
+                <LoadingBarTop/>
+                <SearchBar/>{/* bookArray={bookArray} setBookArray={setBookArray}/>*/}
+                <ContentBar/>{/* bookArray={bookArray} setBookArray={setBookArray}/>*/}
+            </Provider>
 
             <Link to="/add-book">Add Book Page</Link>
         </div>
