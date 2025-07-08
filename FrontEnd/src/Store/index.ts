@@ -1,18 +1,8 @@
 import { configureStore, createSlice, type PayloadAction} from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export type BookDTO = {
-    id:number,
-    title: string,
-    author: string,
-    publish_date: string,
-}
-
-export type BooksState = {
-    books: BookDTO[],
-    loading: boolean,
-    error: string,
-}
+import { type AppDispatch, type BooksState, type BookDTO } from '../Utils/types';
+import { BOOK_URL } from '../Utils/constant';
 
 const initialState: BooksState = {
     books: [],
@@ -43,15 +33,11 @@ const booksSlice = createSlice({
 
 export const { fetchBooksRequest, fetchBooksSuccess, fetchBooksFailure } = booksSlice.actions;
 
-export const BOOK_URL: string = import.meta.env.VITE_BOOK_URL;
-
 export const fetchBooks = (titleQuery: string = '') => async (dispatch: AppDispatch) => {
     dispatch(fetchBooksRequest());
 
     try {
         const GET_BOOKS_URL = `${BOOK_URL}/get-books?book_title=${encodeURIComponent(titleQuery)}`;
-        console.log("Fetching from:", GET_BOOKS_URL);
-
         const response = await axios.get(GET_BOOKS_URL);
 
         dispatch(fetchBooksSuccess(response.data));
@@ -71,6 +57,3 @@ export const store = configureStore({
         books:booksSlice.reducer
     }
 });
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
