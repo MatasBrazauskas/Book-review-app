@@ -1,4 +1,5 @@
 import { type BookAction, type BookFormState, type BookFormErrors, type BooksInformation } from "./types"
+import { format } from 'date-fns';
 
 export const initialBookState:BookFormState = {
     bookObj: {
@@ -8,7 +9,7 @@ export const initialBookState:BookFormState = {
         pageCount: 0,
         content:'',
         publishDate:'',
-        additionDate:'',
+        additionDate: format(new Date(), 'yyyy-MM-dd'),
     },
     errors: {},
 }
@@ -62,5 +63,6 @@ export const bookFormValidation = (state: BooksInformation) : BookFormErrors => 
     if(!state.publishDate || state.publishDate.length === 0){
         errors.publishDate = "Add a publish date";
     }
+
     return errors;
 }
