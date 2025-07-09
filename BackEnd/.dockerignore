@@ -1,0 +1,7 @@
+target/
+.mvn/
+.gradle/
+.idea/
+*.iml
+*.log
+src/main/resources/application.properties
