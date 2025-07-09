@@ -8,8 +8,8 @@ services:
     ports:
       - "3000:80" # Map host port 3000 to container port 80 (Nginx)
     environment:
-      VITE_BOOK_URL="http://localhost:8080/books"
-      VITE_REVIEW_URL="http://localhost:8080/reviews"
+      VITE_BOOK_URL=http://localhost:8080/books
+      VITE_REVIEW_URL=http://localhost:8080/reviews
     depends_on:
       - backend
     networks:
